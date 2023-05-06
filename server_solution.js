@@ -6,7 +6,7 @@ const hostname = '0.0.0.0';
 const port = 8080;
 
 const url = process.env.MONGODB_URL
-const dbName = 'my-test-db2'; 
+const dbName = 'test'; 
 
 const mongoose = require("mongoose");
 

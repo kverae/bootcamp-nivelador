@@ -1,0 +1,35 @@
+version: '1.0'
+
+services:
+  node-app:
+    build: .
+    image: node-app
+    container_name: node-app
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017/
+    ports:
+      - '8080:8080'
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/src
+    networks:
+      - node-network
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./init-mongodb:/docker-entrypoint-initdb.d
+      - ./init-mongodb/data:/tmp/data
+    networks:
+      - node-network
+
+volumes:
+  dbdata6:
+
+networks:
+  node-network:
+    driver: bridge
