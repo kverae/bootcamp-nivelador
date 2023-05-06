@@ -17,6 +17,12 @@ Proyecto nivelador para el Master Full Stack. La API fue realizada para la colec
   docker compose up
 ```
 * Esto correrá la API en la IP: 0.0.0.0 puerto 8080 y la BD en el container ¨mongodb¨ puerto 27017
+* En caso de que el container de mongodb, tenga el siguiente error:
+```bash
+/docker-entrypoint-initdb.d/init.sh: line 2: $'\r': command not found
+```
+Se debe a un cambio de formato del EOL (End Of Line) del archivo init.js. Probablemente el archivo contiene caracteres que solo Windows reconoce. Para resolverlo, realizar lo siguiente:
+* En el Visual Studio Code cambiar el tipo de EOL de CRLF a LF. Presionando F1 y escribiendo "Change End of Line Sequence"
 
 ### Las APIs disponibles son las siguientes:
 
