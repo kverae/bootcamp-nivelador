@@ -55,5 +55,36 @@ app.get('/filter-users', async function (req, res) {
     }  
 });
 
+/**
+ * Definir una ruta con método PUT que modifique alguno de los campos 
+ * de un documento (el cual debe cumplir alguna condición o query). Los 
+ * códigos 4xx se dejan a su elección. Los códigos 2xx deben ser, como 
+ * mínimo, los siguientes: 
+ * 
+ * i. If not found, create a new document in the database. (return 201 Created)
+ * ii. If found, target keyword(s) to be successfully modified (200 OK)
+ */
+app.put('/', async function (req, res) {
+    console.log(req.body._id);
+    try {
+        let statusNumber = 200; // successfully modified
+        let user = await User.findOne({_id: req.body._id});
+        if(user != null) {
+            user.overwrite(req.body);
+            await user.save();
+        } else {
+            statusNumber = 201; // created
+            user = new User(req.body);
+            await user.save();
+        }        
+        res.status(statusNumber).send(user);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
+    
+});
+
 app.listen(port, hostname);
 console.log(`Running on http://${hostname}:${port}`);
