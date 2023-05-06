@@ -26,5 +26,20 @@ db.once("open", function () {
 const app = express();
 app.use(bodyParser.json()); // for parsing application/json
 
+const User = require('./models/user')
+
+/**
+ * Crear una ruta que, mediante un GET, 
+ * devuelva todos los documentos en una colección
+ */
+app.get('/all-users', async function (req, res) {
+    try {
+        const users = await User.find({});
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }  
+});
+
 app.listen(port, hostname);
 console.log(`Running on http://${hostname}:${port}`);
