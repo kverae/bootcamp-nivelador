@@ -86,5 +86,27 @@ app.put('/', async function (req, res) {
     
 });
 
+/**
+ * Definir una ruta con método DELETE que elimine el(los) documento(s) 
+ * que cumplan alguna condición o query. Los códigos 4xx se dejan a su 
+ * elección. Los códigos 2xx deben ser, como mínimo, los siguientes:
+ * 
+ * i. If not found, do nothing. (204 No Content)
+ * ii. If found, document deleted (200 OK)
+ */
+app.delete('/', async function (req, res) {
+    console.log(req.query.id);
+    try {
+        let statusNumber = 200;
+        const user = await await User.findOneAndDelete({ _id: req.query.id });
+        if(user === null){
+            statusNumber = 204;
+        }
+        res.status(statusNumber).json(user);
+    } catch (error) {
+        res.status(500).send(error);
+    }    
+});
+
 app.listen(port, hostname);
 console.log(`Running on http://${hostname}:${port}`);
